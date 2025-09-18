@@ -1,0 +1,143 @@
+┌───────────────────────┐
+                       │        Person         │
+                       ├───────────────────────┤
+                       │ - name: String        │
+                       │ - age: int            │
+                       ├───────────────────────┤
+                       │ + displayInfo(): void │
+                       └───────────▲───────────┘
+                                   │
+            ┌──────────────────────┴───────────────────────┐
+   ┌────────────────────────────┐               ┌────────────────────────────┐
+   │           Donor            │               │         Recipient          │
+   ├────────────────────────────┤               ├────────────────────────────┤
+   │ - bloodType: String        │               │ - requiredBloodType: String│
+   ├────────────────────────────┤               ├────────────────────────────┤
+   │ + displayInfo(): void      │               │ + displayInfo(): void      │
+   └────────────────────────────┘               └────────────────────────────┘
+
+
+                  ┌────────────────────────────┐
+                  │       DonationCenter       │
+                  ├────────────────────────────┤
+                  │ - centerName: String       │
+                  │ - location: String         │
+                  ├────────────────────────────┤
+                  │ + displayInfo(): void      │
+                  └────────────────────────────┘
+
+
+                  ┌────────────────────────────┐
+                  │       BloodDonation        │
+                  ├────────────────────────────┤
+                  │ - donor: Donor             │
+                  │ - recipient: Recipient     │
+                  │ - center: DonationCenter   │
+                  ├────────────────────────────┤
+                  │ + displayDonationDetails() │
+                  └────────────────────────────┘
+
+
+
+public class Person {
+    protected String name;
+    protected int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+}
+
+Donor.java
+
+public class Donor extends Person {
+    private String bloodType;
+
+    public Donor(String name, int age, String bloodType) {
+        super(name, age); // Inherits from Person
+        this.bloodType = bloodType;
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Blood Type: " + bloodType);
+    }
+}
+
+Recipient.java
+
+public class Recipient extends Person {
+    private String requiredBloodType;
+
+    public Recipient(String name, int age, String requiredBloodType) {
+        super(name, age);
+        this.requiredBloodType = requiredBloodType;
+    }
+
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Required Blood Type: " + requiredBloodType);
+    }
+}
+
+DonationCenter.java
+
+public class DonationCenter {
+    private String centerName;
+    private String location;
+
+    public DonationCenter(String centerName, String location) {
+        this.centerName = centerName;
+        this.location = location;
+    }
+
+    public void displayInfo() {
+        System.out.println("Donation Center: " + centerName + ", Location: " + location);
+    }
+}
+
+BloodDonation.java
+
+public class BloodDonation {
+    private Donor donor;
+    private Recipient recipient;
+    private DonationCenter center;
+
+    public BloodDonation(Donor donor, Recipient recipient, DonationCenter center) {
+        this.donor = donor;
+        this.recipient = recipient;
+        this.center = center;
+    }
+
+    public void displayDonationDetails() {
+        System.out.println("\n=== Blood Donation Record ===");
+        donor.displayInfo();
+        System.out.println("↓ Donates blood to ↓");
+        recipient.displayInfo();
+        center.displayInfo();
+    }
+}
+
+ProjectTester.java
+
+public class ProjectTester {
+    public static void main(String[] args) {
+     
+        Donor donor = new Donor("Maria Santos", 28, "O+");
+
+        Recipient recipient = new Recipient("Juan Dela Cruz", 45, "O+");
+
+        DonationCenter center = new DonationCenter("Red Cross Manila", "Manila City");
+
+        BloodDonation donation = new BloodDonation(donor, recipient, center);
+
+        donation.displayDonationDetails();
+    }
+}
