@@ -1,0 +1,104 @@
+import java.util.Random;
+import java.util.Scanner;
+
+class Person {
+    private String name;
+    private String city;
+    private String bloodType;
+    protected int score; 
+
+    public Person(String name, String city, String bloodType) {
+        this.name = name;
+        this.city = city;
+        this.bloodType = bloodType;
+        this.score = 0;
+    }
+    public String getName() { return name; }
+    public String getCity() { return city; }
+    public String getBloodType() { return bloodType; }
+    public int getScore() { return score; }
+
+    public void displayProfile() {
+        System.out.println("--- Standard Player Profile ---");
+        System.out.println("Name: " + name);
+        System.out.println("City: " + city);
+        System.out.println("Blood Type: " + bloodType);
+        System.out.println("-----------------------------");
+    }
+    public void incrementScore() {
+        this.score++;
+    }
+}
+class VerifiedPlayer extends Person {
+    private String verificationBadge;
+
+    public VerifiedPlayer(String name, String city, String bloodType, String badge) {
+        super(name, city, bloodType); // Call parent constructor
+        this.verificationBadge = badge;
+    }
+    @Override
+    public void displayProfile() {
+        System.out.println("--- ⭐ VIP Verified Player Profile ⭐ ---");
+        System.out.println("Name: " + getName() + " (Verified)");
+        System.out.println("City: " + getCity());
+        System.out.println("Blood Type: " + getBloodType());
+        System.out.println("Badge: **" + verificationBadge + "**");
+        System.out.println("---------------------------------------");
+    }
+}
+public class EnhancedArithmeticGame {
+
+    private static final int NUMBER_OF_QUESTIONS = 5;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Welcome to the Enhanced Java Arithmetic Game!");
+        System.out.print("Enter your Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter your City: ");
+        String city = scanner.nextLine();
+        System.out.print("Enter your Blood Type (e.g., O-, A+, AB+): ");
+        String bloodType = scanner.nextLine().toUpperCase();
+
+        Person currentPlayer; 
+        
+        if (bloodType.equals("O-") || bloodType.equals("AB+")) {
+            currentPlayer = new VerifiedPlayer(name, city, bloodType, "Critical Blood Type");
+        } else {
+            currentPlayer = new Person(name, city, bloodType);
+        }
+        currentPlayer.displayProfile();
+        
+        System.out.println("\nStarting the " + NUMBER_OF_QUESTIONS + "-question quiz!");
+        
+        Random random = new Random();
+        for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+            int num1 = random.nextInt(50) + 1;
+            int num2 = random.nextInt(50) + 1;
+            int correct_answer = num1 + num2;
+            
+            System.out.print("\nQuestion " + i + ": What is " + num1 + " + " + num2 + "? Your answer: ");
+            
+            if (scanner.hasNextInt()) {
+                int user_answer = scanner.nextInt();
+                
+                if (user_answer == correct_answer) {
+                    System.out.println("Correct! 🎉");
+                    currentPlayer.incrementScore();
+                } else {
+                    System.out.println("Incorrect. The answer was " + correct_answer + ".");
+                }
+            } else {
+                System.out.println("Invalid input. Question skipped.");
+                scanner.next(); 
+            }
+        }
+        System.out.println("\n=================================");
+        System.out.println("Game Over, **" + currentPlayer.getName() + "**!");
+        System.out.println("Final Score: **" + currentPlayer.getScore() + "** out of " + NUMBER_OF_QUESTIONS);
+        System.out.println("=================================");
+
+        scanner.close();
+    }
+}
