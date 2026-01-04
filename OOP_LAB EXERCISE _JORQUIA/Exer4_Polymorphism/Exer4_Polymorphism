@@ -1,0 +1,82 @@
+class Person {
+    private String name;
+    private String city;
+    private String bloodType;
+
+    public Person(String name, String city, String bloodType) {
+        this.name = name;
+        this.city = city;
+        this.bloodType = bloodType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void displayInfo() {
+        System.out.println("--- General Person Info ---");
+        System.out.println("Name: " + name);
+        System.out.println("City: " + city);
+        System.out.println("Blood Type: " + bloodType);
+    }
+}
+
+class Donor extends Person {
+    private int donationsMade;
+
+    public Donor(String name, String city, String bloodType, int donationsMade) {
+        super(name, city, bloodType);
+        this.donationsMade = donationsMade;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("--- Donor Profile ---");
+        System.out.println("Name: " + getName());
+        System.out.println("City: " + getCity());
+        System.out.println("Blood Type: " + getBloodType());
+        System.out.println("**Donations Made: " + donationsMade + "**");
+    }
+}
+
+class Recipient extends Person {
+    private String requiredOrgan;
+
+    public Recipient(String name, String city, String bloodType, String requiredOrgan) {
+        super(name, city, bloodType);
+        this.requiredOrgan = requiredOrgan;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("--- Recipient Profile ---");
+        System.out.println("Name: " + getName());
+        System.out.println("City: " + getCity());
+        System.out.println("Blood Type: " + getBloodType());
+        System.out.println("**Required Organ: " + requiredOrgan + "**");
+    }
+}
+
+public class PolymorphismDemo {
+    public static void main(String[] args) {
+
+        Person generalPerson = new Person("Alice Smith", "New York", "A+");
+        Person donorPerson = new Donor("Bob Johnson", "Los Angeles", "O-", 5);
+        Person recipientPerson = new Recipient("Charlie Brown", "Chicago", "AB+", "Kidney");
+
+        Person[] people = {generalPerson, donorPerson, recipientPerson};
+
+        for (Person person : people) {
+            person.displayInfo();
+            System.out.println();
+        }
+    }
+}
